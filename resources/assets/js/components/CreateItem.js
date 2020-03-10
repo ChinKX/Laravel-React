@@ -30,7 +30,16 @@ class CreateItem extends Component {
       price: this.state.productPrice
     }
     let uri = 'http://localhost:8000/items';
-    axios.post(uri, products).then((response) => {
+    let config = {
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    }
+    axios.post(
+      uri,
+      products,
+      config
+    ).then((response) => {
       browserHistory.push('/display-item');
     });
   }
