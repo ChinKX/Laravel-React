@@ -3,15 +3,16 @@ import { Link, browserHistory } from 'react-router';
 
 class TableRow extends Component {
   constructor(props) {
-      super(props);
-      this.handleSubmit = this.handleSubmit.bind(this);
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
     let uri = `http://localhost:8000/items/${this.props.obj.id}`;
     axios.delete(uri);
-      browserHistory.push('/display-item');
+      // browserHistory.push('/display-item');
+    this.props.refresh();
   }
   
   render() {

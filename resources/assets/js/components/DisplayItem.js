@@ -22,7 +22,21 @@ class DisplayItem extends Component {
   tabRow(){
     if(this.state.items instanceof Array){
       return this.state.items.map(function(object, i){
-          return <TableRow obj={object} key={i} />;
+          return <TableRow
+            obj={object}
+            key={i}
+            refresh={
+              () => {
+                axios.get('http://localhost:8000/items')
+                .then(response => {
+                  this.setState({ items: response.data });
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+              }
+            }
+          />;
       })
     }
   }
