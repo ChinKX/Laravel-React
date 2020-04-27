@@ -1,3 +1,7 @@
+/*
+  NOTE: Need to npm install cross-env & node-sass
+*/
+
 require('./bootstrap');
 import React from 'react';
 import { render } from 'react-dom';

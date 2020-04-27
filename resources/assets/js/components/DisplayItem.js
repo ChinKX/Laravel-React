@@ -7,23 +7,33 @@ class DisplayItem extends Component {
   constructor(props) {
     super(props);
     this.state = {value: '', items: ''};
+    this._fetchData = this._fetchData.bind(this);
+    this.tabRow = this.tabRow.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
+    this._fetchData();
+  }
+
+  _fetchData() {
     axios.get('http://localhost:8000/items')
-    .then(response => {
-      this.setState({ items: response.data });
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+      .then(response => {
+        this.setState({ items: response.data });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
-  tabRow(){
+  tabRow() {
     if(this.state.items instanceof Array){
       return this.state.items.map(function(object, i){
-          return <TableRow obj={object} key={i} />;
-      })
+        return <TableRow
+          obj={object}
+          key={i}
+          refresh={this._fetchData}
+        />;
+      }.bind(this))
     }
   }
 
@@ -40,17 +50,17 @@ class DisplayItem extends Component {
         </div><br />
 
         <table className="table table-hover">
-            <thead>
-            <tr>
-                <td>ID</td>
-                <td>Item Name</td>
-                <td>Item Price</td>
-                <td>Actions</td>
-            </tr>
-            </thead>
-            <tbody>
-              {this.tabRow()}
-            </tbody>
+          <thead>
+          <tr>
+            <td>ID</td>
+            <td>Item Name</td>
+            <td>Item Price</td>
+            <td>Actions</td>
+          </tr>
+          </thead>
+          <tbody>
+            {this.tabRow()}
+          </tbody>
         </table>
       </div>
     )

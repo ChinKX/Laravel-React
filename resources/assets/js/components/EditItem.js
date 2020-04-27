@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 class EditItem extends Component {
   constructor(props) {
@@ -41,7 +41,8 @@ class EditItem extends Component {
     }
     let uri = 'http://localhost:8000/items/' + this.props.params.id;
     axios.patch(uri, products).then((response) => {
-          this.props.history.push('/display-item');
+      // this.context.router.push('/display-item');
+      browserHistory.push('/display-item');
     });
   }
 
@@ -57,26 +58,31 @@ class EditItem extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
             <div className="form-group">
-                <label>Item Name</label>
-                <input type="text"
-                  className="form-control"
-                  value={this.state.name}
-                  onChange={this.handleChange1} />
+              <label>Item Name</label>
+              <input type="text"
+                className="form-control"
+                value={this.state.name}
+                onChange={this.handleChange1} />
             </div>
 
             <div className="form-group">
-                <label name="product_price">Item Price</label>
-                <input type="text" className="form-control"
-                  value={this.state.price}
-                  onChange={this.handleChange2} />
+              <label name="product_price">Item Price</label>
+              <input type="text" className="form-control"
+                value={this.state.price}
+                onChange={this.handleChange2} />
             </div>
 
             <div className="form-group">
-                <button className="btn btn-primary">Update</button>
+              <button className="btn btn-primary">Update</button>
             </div>
         </form>
     </div>
     )
   }
 }
+
+EditItem.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
+
 export default EditItem;
